@@ -48,4 +48,4 @@ ggplot(df_all, aes(x = seed_diff)) +
   labs(x = NULL, title = "Seed Difference Model", subtitle = "Probability of winning a matchup given seed difference alone") +
   theme_minimal()
 
-ggsave("seed_diff_LR.png")
+ggsave("plots/seed_diff_LR.png")

@@ -1,5 +1,6 @@
 library(dplyr)
 library(modelr)
+library(tidyr)
 library(ggplot2)
 
 # read in seeds

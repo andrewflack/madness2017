@@ -5,7 +5,7 @@ library(ggplot2)
 library(lubridate)
 
 #### ingest national bracket from ESPN and clean up
-espn <- read_html("http://games.espn.com/tournament-challenge-bracket/2016/en/whopickedwhom")
+espn <- read_html("http://games.espn.com/tournament-challenge-bracket/2017/en/whopickedwhom")
 
 crowd_picks_raw <- espn %>%
   html_nodes(".seed , .percentage, .teamName") %>%
@@ -33,15 +33,14 @@ crowd_picks[,3:8] <- as.data.frame(apply(crowd_picks[,3:8], 2, function(y) as.nu
 
 #### ingest fivethirtyeight forecast and clean up
 # fte_forecast <- read.csv(url("http://projects.fivethirtyeight.com/march-madness-api/2016/fivethirtyeight_ncaa_forecasts.csv"))
-download.file("http://projects.fivethirtyeight.com/march-madness-api/2016/fivethirtyeight_ncaa_forecasts.csv", destfile = "data/fte2016.csv")
-fte_forecast <- read.csv("data/fte2016.csv")
+download.file("http://projects.fivethirtyeight.com/march-madness-api/2017/fivethirtyeight_ncaa_forecasts.csv", destfile = "data/fte2017.csv")
+fte_forecast <- read.csv("data/fte2017.csv")
 
 fte_forecast <- fte_forecast %>% 
   filter(gender == "mens") %>% 
   mutate(forecast_date = ymd(forecast_date)) %>% 
-  # filter(forecast_date == max(forecast_date)) %>% 
+  filter(forecast_date == max(forecast_date)) %>%
   # filter(rd1_win == 1) %>% 
-  filter(forecast_date == as.Date("2016-03-16")) %>% 
   select(team_name, team_region, rd2_win, rd3_win, rd4_win, rd5_win, rd6_win, rd7_win)
 
 colnames(fte_forecast) <- c("team", "team_region", "R32", "R16", "R8", "R4", "NCG", "title")
